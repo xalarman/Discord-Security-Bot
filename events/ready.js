@@ -63,6 +63,11 @@ module.exports = async(client, con, ready) => {
                 console.log("Bot started successfully"); // Allows for docker ready event
             })
     
+                await con.query(`SELECT COUNT(*) as total FROM bannedusers`, async (err, row) => {
+                    if(err) throw err;
+                    banCount = row[0].total
+                });
+            
             setInterval(async () => {
                 await con.query(`SELECT COUNT(*) as total FROM bannedusers`, async (err, row) => {
                     if(err) throw err;
