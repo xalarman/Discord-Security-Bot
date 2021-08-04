@@ -52,7 +52,7 @@ const config = {
         "useBuiltInAppeals": true,
         "appeallink": "",
 
-        "messages: {
+        "messages": {
             "prompt1": "Please state your ban reason.",
 
             "prompt2": "Provide the reason you believe you should be unbanned from our database below, feel free to provide images or other information.",
