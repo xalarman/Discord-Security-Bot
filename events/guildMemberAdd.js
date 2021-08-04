@@ -22,7 +22,7 @@ module.exports = async(client, con, guildMember) => {
                         if(row[0]) {
                             let deReason;
                             let deChannel = guildMember.guild.channels.cache.get(row[0].channelid)
-                            await con.query(`SELECT * FROM bannedusers WHERE userid='${guildMember.id}'`, async(err, row) => {
+                            await con.query(`SELECT * FROM bannedusers WHERE userid='${guildMember.user.id}'`, async(err, row) => {
                                 if(err) throw err;
                                 deReason = await row[0].reason
                                 let frick = new MessageEmbed()
