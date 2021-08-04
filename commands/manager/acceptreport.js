@@ -80,7 +80,7 @@ exports.run = async (client, message, args, con) => {
 
                                     try {
 
-                                        setTimeout(function() {
+                                        setTimeout(async function() {
 
                                             // PlutoTheDev#1000's Better Logging System (if you're reading this, I'm actually gay)
                                         
@@ -123,8 +123,8 @@ exports.run = async (client, message, args, con) => {
                                                     .setFooter(`${client.config.copyright}`)
 
                                                     try {
-                                                        const founduser = client.users.cache.get(row[0].reportedid)
-                                                        founduser.send(embed)
+                                                        const founduser = await client.users.cache.get(row[0].reportedid)
+                                                        founduser.send(embed).catch(e => {});
                                                     } catch (e) {
                                                         if (client.config.debugmode) return console.log(e);
                                                     }
@@ -142,7 +142,7 @@ exports.run = async (client, message, args, con) => {
                         try {
                             con.query(`SELECT * FROM reports WHERE uniqueid='${args[0]}'`, async (err, newrow) => {
 
-                                    let someuser = client.users.cache.get(newrow[0].reporterid)
+                                    let someuser = await client.users.cache.get(newrow[0].reporterid)
                                     const embed = new MessageEmbed()
                                     .setTitle(`Report Accepted!`)
                                     .setColor(`${client.config.colorhex}`)
