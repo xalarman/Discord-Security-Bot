@@ -5,17 +5,11 @@ const figlet = require('figlet');
 const carden = require('carden');
 const ms = require('ms')
 const Importer = require('mysql-import');
-let banCount;
 
 module.exports = async(client, con, ready) => {
 
     try {
-        
-        await con.query(`SELECT COUNT(*) as total FROM bannedusers`, async (err, row) => {
-            if(err) throw err;
-            banCount = row[0].total
-        });
-        
+               
         if(client.config.autoImportSQL) {
         // MySQL Auto Importer Lolz
         try {
@@ -122,10 +116,9 @@ module.exports = async(client, con, ready) => {
         // Presence Settings
         let presence = [
             {name: `${client.user.username}`, type: "PLAYING", status: "dnd"},
-            {name: "${client.config.prefix}help | ${client.config.prefix}setup", type: "LISTENING", status: "dnd"},
+            {name: `${client.config.prefix}help | ${client.config.prefix}setup`, type: "LISTENING", status: "dnd"},
             {name: `${client.users.cache.size} users!`, type: "WATCHING", status: "dnd"},
-            {name: `${client.guilds.cache.size} servers!`, type: "WATCHING", status: "dnd"},
-            {name: `${banCount} bans!`, type: "WATCHING", status: "dnd"}
+            {name: `${client.guilds.cache.size} servers!`, type: "WATCHING", status: "dnd"}
         ];
 
         changeStatus(client, presence)
