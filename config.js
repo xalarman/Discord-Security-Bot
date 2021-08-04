@@ -9,7 +9,7 @@ const config = {
     "voicechanneltojoin": "some-id",
     "port": "8080",
     "debugmode": true,
-    "autoImportSQL": true,
+    "autoImportSQL": true, // It is recommended to turn this off after your first time boot to avoid errors
 
     // MySQL Settings
     "database": {
