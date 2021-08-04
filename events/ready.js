@@ -6,11 +6,15 @@ const carden = require('carden');
 const ms = require('ms')
 const Importer = require('mysql-import');
 let banCount;
-banCount = 'LOADING'
 
 module.exports = async(client, con, ready) => {
 
     try {
+        
+        await con.query(`SELECT COUNT(*) as total FROM bannedusers`, async (err, row) => {
+            if(err) throw err;
+            banCount = row[0].total
+        });
         
         if(client.config.autoImportSQL) {
         // MySQL Auto Importer Lolz
@@ -62,18 +66,6 @@ module.exports = async(client, con, ready) => {
                 console.log(`\n\n    ------ CONSOLE LOGGING BEGINS BELOW ------\n\n`)
                 console.log("Bot started successfully"); // Allows for docker ready event
             })
-    
-                await con.query(`SELECT COUNT(*) as total FROM bannedusers`, async (err, row) => {
-                    if(err) throw err;
-                    banCount = row[0].total
-                });
-            
-            setInterval(async () => {
-                await con.query(`SELECT COUNT(*) as total FROM bannedusers`, async (err, row) => {
-                    if(err) throw err;
-                    banCount = row[0].total
-                });
-            }, ms('25m'));
             
             await client.guilds.cache.forEach(async g => {
                 await con.query(`SELECT * FROM guilds WHERE guildid='${g.id}'`, async(err, row) => {
