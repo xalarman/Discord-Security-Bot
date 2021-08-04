@@ -5,6 +5,8 @@ const figlet = require('figlet');
 const carden = require('carden');
 const ms = require('ms')
 const Importer = require('mysql-import');
+let banCount;
+banCount = 'LOADING'
 
 module.exports = async(client, con, ready) => {
 
@@ -61,6 +63,13 @@ module.exports = async(client, con, ready) => {
                 console.log("Bot started successfully"); // Allows for docker ready event
             })
     
+            setInterval(async () => {
+                await con.query(`SELECT COUNT(*) as total FROM bannedusers`, async (err, row) => {
+                    if(err) throw err;
+                    banCount = row[0].total
+                });
+            }, ms('25m'));
+            
             await client.guilds.cache.forEach(async g => {
                 await con.query(`SELECT * FROM guilds WHERE guildid='${g.id}'`, async(err, row) => {
                     if(err) throw err
@@ -118,7 +127,8 @@ module.exports = async(client, con, ready) => {
             {name: `${client.user.username}`, type: "PLAYING", status: "dnd"},
             {name: "s!help | s!setup", type: "LISTENING", status: "dnd"},
             {name: `${client.users.cache.size} users!`, type: "WATCHING", status: "dnd"},
-            {name: `${client.guilds.cache.size} servers!`, type: "WATCHING", status: "dnd"}
+            {name: `${client.guilds.cache.size} servers!`, type: "WATCHING", status: "dnd"},
+            {name: `${banCount} bans!`, type: "WATCHING", status: "dnd"}
         ];
 
         changeStatus(client, presence)
