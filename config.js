@@ -9,6 +9,7 @@ const config = {
     "voicechanneltojoin": "some-id",
     "port": "8080",
     "debugmode": true,
+    "autoImportSQL": true,
 
     // MySQL Settings
     "database": {
