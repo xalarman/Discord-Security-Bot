@@ -1,4 +1,4 @@
-const _config = {
+const config = {
 
     // Client Settings
     prefix: "s!",
@@ -85,4 +85,4 @@ const _config = {
 
 }
 
-module.exports = _config;
+module.exports = config;
