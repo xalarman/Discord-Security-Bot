@@ -29,7 +29,7 @@ const config = {
         "useBuiltInReports": true,
         "reportlink": "",
 
-        "messages: {
+        "messages": {
             "NOTES": "Technically you CANNOT change the ''order'' of the prompts. The first one MUST be the users TAG, the second MUST be the ID, and the rest must stay in the same order, you can however change the default wording if you wish!",
             "prompt1": "Now, provide the user's Name & TAG.\n**Example: Hyperz#0001**.",
             
