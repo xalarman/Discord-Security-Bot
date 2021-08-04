@@ -1,5 +1,31 @@
 # Discord-Security-Bot
 
+An advanced Discord Security bot, including a ban database, watchlist, sticky messages, server lockdown, and embed builder. Supports multiple servers.
+
+# Dependencies
+
+```
+- NodeJS V14+
+- MySQL-Server
+- Discord Developer Mode
+- Discord Application
+- Discord Server
+```
+
+# API
+
+```js
+localhost:3000/                                         -- Grabs the API status & credits
+localhost:3000/stats                                    -- Grabs the bots statistics
+localhost:3000/cases/CASE_ID_HERE                       -- Grabs a provided case
+localhost:3000/staff/STAFF_ID_HERE                      -- Grabs a provided staff user
+localhost:3000/bans/USER_ID_HERE                        -- Grabs a banned user
+localhost:3000/blacklists/USER_ID_HERE                  -- Grabs a blacklisted user
+localhost:3000/guilds/GUILD_ID_HERE                     -- Grabs a guild
+```
+
+---
+
 ![](https://cdn.hyperz.dev/ocagtbnm.png)
 
 ![](https://cdn.hyperz.dev/ny185scy.png)
