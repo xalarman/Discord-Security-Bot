@@ -8,6 +8,33 @@ const ms = require('ms')
 module.exports = async(client, con, ready) => {
 
     try {
+        
+        if(client.config.autoImportSQL) {
+        // MySQL Auto Importer Lolz
+        try {
+            const importer = new Importer(client.config.mysql);
+
+            // New onProgress method, added in version 5.0!
+            importer.onProgress(progress=>{
+            var percent = Math.floor(progress.bytes_processed / progress.total_bytes * 10000) / 100;
+            console.log(`${percent}% Completed`);
+            });
+    
+            importer.import('install.sql').then(()=>{
+            var files_imported = importer.getImported();
+            console.log(`${files_imported.length} SQL file(s) imported.`);
+            }).catch(err=>{
+                if(client.config.debugmode) {
+                    console.error(err);
+                }
+            });
+        } catch(e) {
+            if(client.config.debugmode) {
+                console.log(e)
+            }
+        }
+            
+        }
 
         // Presence Settings
         let presence = [
