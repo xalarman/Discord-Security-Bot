@@ -122,7 +122,7 @@ module.exports = async(client, con, ready) => {
         // Presence Settings
         let presence = [
             {name: `${client.user.username}`, type: "PLAYING", status: "dnd"},
-            {name: "s!help | s!setup", type: "LISTENING", status: "dnd"},
+            {name: "${client.config.prefix}help | ${client.config.prefix}setup", type: "LISTENING", status: "dnd"},
             {name: `${client.users.cache.size} users!`, type: "WATCHING", status: "dnd"},
             {name: `${client.guilds.cache.size} servers!`, type: "WATCHING", status: "dnd"},
             {name: `${banCount} bans!`, type: "WATCHING", status: "dnd"}
