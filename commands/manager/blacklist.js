@@ -117,8 +117,14 @@ exports.run = async (client, message, args, con) => {
                                                                 .setImage(image)
                                                                 .setFooter(`${client.config.copyright}`);
                                                                 for(let data of rows) {
-                                                                    let deChannel = await client.channels.cache.get(data.channelid)
-                                                                    deChannel.send(mails).catch(e => {});
+                                                                    const deChannel = await client.channels.cache.get(data.channelid)
+                                                                    if(!deChannel) {
+                                                                        await con.query(`DELETE FROM loggingchannels WHERE channelid='${data.channelid}'`, async (err, row) => {
+                                                                            if(err) throw err;
+                                                                        });
+                                                                    } else {
+                                                                        deChannel.send(mails).catch(e => {});
+                                                                    }
                                                                 }
                                                             }
                                                         });

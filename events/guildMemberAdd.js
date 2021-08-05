@@ -75,16 +75,10 @@ module.exports = async(client, con, guildMember) => {
                                 let alert = new MessageEmbed()
                                 .setColor(client.config.colorhex)
                                 .setThumbnail(client.user.avatarURL({ dynamic: true }))
-                                .setDescription(`A user that is currently in our system has just joined your server!`)
-                                .addFields(
-                                    { name: `User Tag`, value: `${guildMember.user.tag}`, inline: true },
-                                    { name: `User ID`, value: `${guildMember.user.id}`, inline: true },
-                                    { name: `Banned`, value: `true`, inline: true },
-                                    { name: `Reason:`, value: `\`\`\`${row[0].reason}\`\`\``, inline: true },
-                                )
+                                .setTitle(`Banned User Notice!`)
+                                .setDescription(`**Case #:** ${row[0].caseid}\n**User:** ${guildMember.user.tag} - (${guildMember.user.id})\n**Type:** \`Banned\`\n**Reason:** ${row[0].reason}`)
                                 .setImage(row[0].proof)
-                                .setTimestamp()
-                                .setFooter(client.config.copyright)
+                                .setFooter(`You are recieving this notice as we detected they joined your server.`)
                                 deChannel.send(alert).catch(e => {});
                             } else {
                                 await con.query(`SELECT * FROM blacklistedusers WHERE userid='${guildMember.user.id}'`, async(err, row) => {
@@ -93,16 +87,10 @@ module.exports = async(client, con, guildMember) => {
                                         let alert = new MessageEmbed()
                                         .setColor(client.config.colorhex)
                                         .setThumbnail(client.user.avatarURL({ dynamic: true }))
-                                        .setDescription(`A user that is currently in our system has just joined your server!`)
-                                        .addFields(
-                                            { name: `User Tag`, value: `${guildMember.user.tag}`, inline: true },
-                                            { name: `User ID`, value: `${guildMember.user.id}`, inline: true },
-                                            { name: `Blacklisted`, value: `true`, inline: true },
-                                            { name: `Reason:`, value: `\`\`\`${row[0].reason}\`\`\``, inline: true },
-                                        )
+                                        .setTitle(`Blacklisted User Notice!`)
+                                        .setDescription(`**Case #:** ${row[0].caseid}\n**User:** ${guildMember.user.tag} - (${guildMember.user.id})\n**Type:** \`Blacklisted\`\n**Reason:** ${row[0].reason}`)
                                         .setImage(row[0].proof)
-                                        .setTimestamp()
-                                        .setFooter(client.config.copyright)
+                                        .setFooter(`You are recieving this notice as we detected they joined your server.`)
                                         deChannel.send(alert).catch(e => {});
                                     }
                                 });

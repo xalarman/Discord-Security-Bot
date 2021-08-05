@@ -121,6 +121,8 @@ module.exports = async(client, con, ready) => {
             {name: `${client.guilds.cache.size} servers!`, type: "WATCHING", status: "dnd"}
         ];
 
+	
+
         changeStatus(client, presence)
 
     } catch(e) {
