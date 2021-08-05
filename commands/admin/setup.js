@@ -57,11 +57,11 @@ exports.run = async (client, message, args, con) => {
                 } else if(collected.first().mentions.channels.first()) {
                     content1 = collected.first().mentions.channels.first().id
                 } else if(!isNaN(collected.first().content)) {
-                    let channelfinder = await client.channels.cache.find(c => c.id === collected.first().content)
-                    if(channelfinder == undefined) return message.channel.send(`**Setup Cancelled.** You provided an invalid channel name.`);
-                    content1 = collected.first().content
+                    let channelfinder = await message.guild.channels.cache.find(c => c.id === collected.first().content)
+                    if(channelfinder == undefined) return message.channel.send(`**Setup Cancelled.** You provided an invalid channel id.`);
+                    content1 = channelfinder.id
                 } else {
-                    let channelfinder = await client.channels.cache.find(c => c.name === collected.first().content)
+                    let channelfinder = await message.guild.channels.cache.find(c => c.name === collected.first().content)
                     if(channelfinder == undefined) return message.channel.send(`**Setup Cancelled.** You provided an invalid channel name.`);
                     content1 = channelfinder.id
                 }
@@ -199,7 +199,7 @@ async function builder(client, con, message, Discord, gmessage, content1, conten
         .setColor(client.config.colorhex)
         .setTitle(`Settings Updated:`)
         .setURL(`https://hyperz.dev/`)
-        .setDescription(`âœ… All settings have been updated.\n\n**You can review your new guild settings below!**`)
+        .setDescription(`✅ All settings have been updated.\n\n**You can review your new guild settings below!**`)
         .addFields(
             { name: `Guild ID`, value: `${message.guild.id}`, inline: true },
             { name: `Logging`, value: `true`, inline: true },
@@ -231,7 +231,7 @@ async function builder(client, con, message, Discord, gmessage, content1, conten
         .setColor(client.config.colorhex)
         .setTitle(`Settings Updated:`)
         .setURL(`https://hyperz.dev/`)
-        .setDescription(`âœ… All settings have been updated.\n\n**You can review your new guild settings below!**`)
+        .setDescription(`✅ All settings have been updated.\n\n**You can review your new guild settings below!**`)
         .addFields(
             { name: `Guild ID`, value: `${message.guild.id}`, inline: true },
             { name: `Logging`, value: `false`, inline: true },
