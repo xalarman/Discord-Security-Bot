@@ -25,7 +25,7 @@ exports.run = (client, message, args, con) => {
             let embed = new MessageEmbed()
             .setColor(client.config.colorhex)
             .setTitle(`Admin Commands`)
-            .setDescription("`prefix` - Set the bots prefix for your guild.\n`setup` - Set the bot up in your guild.\n`settings` - View your guilds current settings.\n`serverlock` - Lockdown your guild / server.\n`embed` - Use our handy embed builder.\n`whitelist` - Add a user to the whitelist.\n`unwhitelist` - Remove a user from the whitelist.\n`updatebans` - Update your bans to match our bans list.\n")
+            .setDescription("`prefix` - Set the bots prefix for your guild.\n`setup` - Set the bot up in your guild.\n`settings` - View your guilds current settings.\n`serverlock` - Lockdown your guild / server.\n`embed` - Use our handy embed builder.\n`whitelist` - Add a user to the whitelist.\n`unwhitelist` - Remove a user from the whitelist.\n`blockurl` - Add a URL to the blocked list.\n`unblockurl` - Remove a URL from the blocked list.\n`updatebans` - Update your bans to match our bans list.\n")
             message.channel.send(embed).then(msg => {
                 msg.delete({ timeout: 22000 })
             }).catch(e => {});

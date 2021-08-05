@@ -87,3 +87,8 @@ CREATE TABLE sticky (
     embed varchar(255),
     color TEXT
 );
+
+CREATE TABLE urlstopper (
+    guildid varchar(255),
+    message TEXT
+);

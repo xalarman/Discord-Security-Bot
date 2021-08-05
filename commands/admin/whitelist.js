@@ -30,7 +30,7 @@ exports.run = async (client, message, args, con) => {
                     }).catch(e => { if (client.config.debugmode) return console.log(e);});
 
                     await con.query(`SELECT * FROM whitelist WHERE userid="${founduser.id}" AND guildid='${message.guild.id}'`, async (err, row) => {
-                        if(row.length) return message.channel.send(`That user is already whitelist in the database.`).then(msg => {
+                        if(row[0]) return message.channel.send(`That user is already whitelist in the database.`).then(msg => {
                             msg.delete({ timeout: 12000 })
                             message.delete()
                         }).catch(e => { if (client.config.debugmode) return console.log(e); });

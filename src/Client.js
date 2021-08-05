@@ -34,14 +34,16 @@ const init = async() => {
             con = mysql.createConnection(client.config.database)
             setTimeout(() => {
                 console.log('MySQL Successfully Connected')
-            }, 2300);
+            }, 4300);
         } catch (e) {
             client.utils.error(client, e)
             return process.exit(1);
         }
 
         if(client.config.clientAPI.enabled) {
-            api.apistart(client, con)
+            setTimeout(() => {
+                api.apistart(client, con)
+            }, 4300);
         }
 
         // Command Handler

