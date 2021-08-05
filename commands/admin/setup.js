@@ -7,6 +7,8 @@ exports.run = async (client, message, args, con) => {
         if(message.channel.type === 'dm') return message.channel.send(`Please only run commands in a Discord server.`).then(msg => {
             msg.delete({ timeout: 12000 })
         }).catch(e => {});
+        
+        if(!message.guild) return message.channel.send('Erroring finding this messages guild.');
 
         message.delete().catch(e => {});
         var gmessage;
@@ -178,10 +180,14 @@ exports.info = {
 
 async function builder(client, con, message, Discord, gmessage, content1, content2, content3, content4, content5, content6) {
     if(content1 != 'none') {
-        await con.query(`SELECT * FROM loggingchannels WHERE channelid='${content1}'`, async (err, row) => {
+        await con.query(`SELECT * FROM loggingchannels WHERE guildid='${message.guild.id}'`, async (err, row) => {
             if(err) throw err;
             if(!row[0]) {
                 await con.query(`INSERT INTO loggingchannels (guildid, channelid, enforcerid, type) VALUES ('${message.guild.id}', '${content1}', '${gmessage.author.id}', '1')`, async (err, row) => {
+                    if(err) throw err;
+                });
+            } else {
+                await con.query(`UPDATE loggingchannels SET channelid='${content1}', enforcerid='${message.author.id}'`, async (err, row) => {
                     if(err) throw err;
                 });
             }
@@ -193,7 +199,7 @@ async function builder(client, con, message, Discord, gmessage, content1, conten
         .setColor(client.config.colorhex)
         .setTitle(`Settings Updated:`)
         .setURL(`https://hyperz.dev/`)
-        .setDescription(`✅ All settings have been updated.\n\n**You can review your new guild settings below!**`)
+        .setDescription(`âœ… All settings have been updated.\n\n**You can review your new guild settings below!**`)
         .addFields(
             { name: `Guild ID`, value: `${message.guild.id}`, inline: true },
             { name: `Logging`, value: `true`, inline: true },
@@ -209,7 +215,15 @@ async function builder(client, con, message, Discord, gmessage, content1, conten
         message.channel.send(embed).catch(e => {
             console.log(e)
         });
+        const newchan = await client.channels.cache.get(content1)
+        newchan.send(embed).catch(e => {})
     } else {
+        await con.query(`SELECT * FROM loggingchannels WHERE guildid='${message.guild.id}'`, async(err, row) => {
+            if(err) throw err;
+            if(row[0]) {
+                await con.query(`DELETE FROM loggingchannels WHERE guildid='${message.guild.id}'`)
+            }
+        });
         await con.query(`UPDATE guilds SET autounbans='${content2}', autobans='${content3}', inviteblocker='${content4}', altprev='${content5}', altprevtimer='${content6}' WHERE guildid='${message.guild.id}'`, async(err, row) => {
             if(err) throw err;
         });
@@ -217,7 +231,7 @@ async function builder(client, con, message, Discord, gmessage, content1, conten
         .setColor(client.config.colorhex)
         .setTitle(`Settings Updated:`)
         .setURL(`https://hyperz.dev/`)
-        .setDescription(`✅ All settings have been updated.\n\n**You can review your new guild settings below!**`)
+        .setDescription(`âœ… All settings have been updated.\n\n**You can review your new guild settings below!**`)
         .addFields(
             { name: `Guild ID`, value: `${message.guild.id}`, inline: true },
             { name: `Logging`, value: `false`, inline: true },
