@@ -82,7 +82,7 @@ const config = {
 
     // This next section is recommended that you do not touch, just ignore it.
 
-    command_count: 28,
+    command_count: 29,
     event_count: 5
 
 }
