@@ -24,15 +24,17 @@ module.exports = async(client, con, guildMember) => {
                             let deChannel = guildMember.guild.channels.cache.get(row[0].channelid)
                             await con.query(`SELECT * FROM bannedusers WHERE userid='${guildMember.user.id}'`, async(err, row) => {
                                 if(err) throw err;
-                                deReason = await row[0].reason
-                                let frick = new MessageEmbed()
-                                .setColor(client.config.colorhex)
-                                .setThumbnail(client.user.avatarURL({ dynamic: true }))
-                                .setTitle(`Member Removed`)
-                                .setDescription(`${guildMember.user.username} was automatically removed as they joined because you have autobans toggled \`true\`.\n\n**Ban Information:**\nUser Object: <@${guildMember.user.id}>\nUser Tag: ${guildMember.user.tag}\nUser ID: ${guildMember.user.id}\nReason: \n\`\`\`${deReason}\`\`\``)
-                                .setTimestamp()
-                                .setFooter(client.config.copyright)
-                                deChannel.send(frick).catch(e => {})
+                                if(row[0]) {
+                                    deReason = await row[0].reason
+                                    let frick = new MessageEmbed()
+                                    .setColor(client.config.colorhex)
+                                    .setThumbnail(client.user.avatarURL({ dynamic: true }))
+                                    .setTitle(`Member Removed`)
+                                    .setDescription(`${guildMember.user.username} was automatically removed as they joined because you have autobans toggled \`true\`.\n\n**Ban Information:**\nUser Object: <@${guildMember.user.id}>\nUser Tag: ${guildMember.user.tag}\nUser ID: ${guildMember.user.id}\nReason: \n\`\`\`${deReason}\`\`\``)
+                                    .setTimestamp()
+                                    .setFooter(client.config.copyright)
+                                    deChannel.send(frick).catch(e => {})
+                                }
                         });
                         }
                     });
@@ -77,7 +79,6 @@ module.exports = async(client, con, guildMember) => {
                                 .addFields(
                                     { name: `User Tag`, value: `${guildMember.user.tag}`, inline: true },
                                     { name: `User ID`, value: `${guildMember.user.id}`, inline: true },
-                                    { name: `Highest Role`, value: ``, inline: true },
                                     { name: `Banned`, value: `true`, inline: true },
                                     { name: `Reason:`, value: `\`\`\`${row[0].reason}\`\`\``, inline: true },
                                 )
@@ -96,7 +97,6 @@ module.exports = async(client, con, guildMember) => {
                                         .addFields(
                                             { name: `User Tag`, value: `${guildMember.user.tag}`, inline: true },
                                             { name: `User ID`, value: `${guildMember.user.id}`, inline: true },
-                                            { name: `Highest Role`, value: ``, inline: true },
                                             { name: `Blacklisted`, value: `true`, inline: true },
                                             { name: `Reason:`, value: `\`\`\`${row[0].reason}\`\`\``, inline: true },
                                         )
@@ -114,7 +114,7 @@ module.exports = async(client, con, guildMember) => {
             if(row[0].serverlock === 'true') {
                 let lockmail = new MessageEmbed()
                 .setColor(client.config.colorhex)
-                .setTitle(`📬 You've Got Mail!`)
+                .setTitle(`?? You've Got Mail!`)
                 .setDescription(`You were recently removed from the guild **${guildMember.guild.name}** as the server is currently in \`lockdown\` mode.\nPlease try joining back at a later time!`)
                 .setTimestamp()
                 .setFooter(client.config.copyright)
@@ -149,7 +149,7 @@ module.exports = async(client, con, guildMember) => {
 
                         let mail = new MessageEmbed()
                         .setColor(client.config.colorhex)
-                        .setTitle(`📬 You've Got Mail!`)
+                        .setTitle(`?? You've Got Mail!`)
                         .setDescription(`You were recently removed from the guild **${guildMember.guild.name}** as your account did not meet the minimum account age requirement.\n\n**Requirement:**\n\`\`\`${counter}\`\`\`\n**Your Account Age:**\n\`\`\`${guildMember.user.createdAt.toLocaleString()}\`\`\``)
                         .setTimestamp()
                         .setFooter(client.config.copyright)
