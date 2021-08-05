@@ -14,7 +14,7 @@ exports.run = async (client, message, args, con) => {
             let embed = new MessageEmbed()
             .setAuthor(message.author.tag, message.author.displayAvatarURL())
             .setColor(client.config.colorhex)
-            .setDescription(`**Case ID:** ${row[0].caseid}\n**User:** ${row[0].usertag} - (${row[0].userid})\n**Staff:** ${row[0].enforcertag} - (${row[0].enforcerid})\n**Reason:** ${row[0].reason}`)
+            .setDescription(`**Case ID:** ${row[0].caseid}\n**User:** ${row[0].caseusertag} - (${row[0].caseuserid})\n**Staff:** ${row[0].enforcertag} - (${row[0].enforcerid})\n**Reason:** ${row[0].reason}`)
             .setThumbnail(`${client.user.displayAvatarURL({ dynamic: true })}`)
             message.channel.send(embed).catch(e => { if(client.config.debugmode) return client.utils.error(client, e) });
         } else {
