@@ -1,5 +1,6 @@
 module.exports = async(client, con, guild) => {
 
+    console.log(`I have left: ${guild.name}`)
     await con.query(`SELECT * FROM guilds WHERE guildid='${guild.id}'`, async (err, row) => {
         if (err) throw err;
         if(row[0]) {
