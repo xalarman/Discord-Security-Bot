@@ -106,9 +106,9 @@ exports.run = async (client, message, args, con) => {
                                                         });
 
                                                         // Logging the stuffs
-                                                        await con.query(`SELECT * FROM loggingchannels WHERE type='1'`, async (err, row) => {
+                                                        await con.query(`SELECT * FROM loggingchannels WHERE type='1'`, async (err, rows) => {
                                                             if(err) throw err;
-                                                            if(row[0]) {
+                                                            if(rows[0]) {
                                                                 let mails = new Discord.MessageEmbed()
                                                                 .setColor(client.config.colorhex)
                                                                 .setTitle(`Blacklisted!`)
@@ -116,7 +116,7 @@ exports.run = async (client, message, args, con) => {
                                                                 .setTimestamp()
                                                                 .setImage(image)
                                                                 .setFooter(`${client.config.copyright}`);
-                                                                for(let data of row) {
+                                                                for(let data of rows) {
                                                                     let deChannel = await client.channels.cache.get(data.channelid)
                                                                     deChannel.send(mails).catch(e => {});
                                                                 }
