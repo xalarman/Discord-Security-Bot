@@ -16,7 +16,7 @@ exports.run = async (client, message, args, con) => {
         if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You are missing the permission(s) \`ADMINISTRATOR\`.`).catch(e => {});
 
         await con.query(`SELECT * FROM guilds WHERE guildid='${message.guild.id}'`, async (err, row) => {
-            let flip = row;
+            let flip = row[0];
             await con.query(`SELECT * FROM loggingchannels WHERE guildid='${flip.guildid}'`, async (err, row) => {
                 if(err) throw err;
                 if(row[0]) {
