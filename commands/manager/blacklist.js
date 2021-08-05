@@ -49,8 +49,7 @@ exports.run = async (client, message, args, con) => {
                     if(err) throw err;
                     if(row[0]) {
                         return message.channel.send(`That user is already blacklisted.`);
-                    }
-                });
+                    } else {
 
                 message.channel.send(prompt1).then(async message => {
                     message.channel.awaitMessages(filter, { max: 1, time: 1000000, errors: ['time'] })
@@ -105,9 +104,16 @@ exports.run = async (client, message, args, con) => {
                                                         .setColor(client.config.colorhex)
                                                         .setTitle(`Blacklisted!`)
                                                         .setDescription(`**${founduser}** was successfully blacklisted!\n**Reason:** ${content2}`)
-                                                        .setImage(`${image}`)
                                                         .setTimestamp()
                                                         .setFooter(`${client.config.copyright}`)
+                                                        try {
+                                                            thecase.setImage(image)
+                                                        } catch(e) {
+                                                            await con.query(`UPDATE blacklistedusers SET proof='${client.config.defaultimage}'`, async (err, row) => {
+                                                                if(err) throw err;
+                                                            });
+                                                            thecase.setImage(client.config.defaultimage)
+                                                        }
                                                         message.channel.send(thecase).then(msg => {
                                                             msg.delete({ timeout: 14000 })
                                                         });
@@ -121,8 +127,12 @@ exports.run = async (client, message, args, con) => {
                                                                 .setTitle(`Blacklisted!`)
                                                                 .setDescription(`**Member:** ${founduser} - (${content1})\n**Reason:** ${content2}\n**Case #:** ${banid}\n**Severity:** Medium\n**Date / Time:** ${datetime}`)
                                                                 .setTimestamp()
-                                                                .setImage(image)
                                                                 .setFooter(`${client.config.copyright}`);
+                                                                try {
+                                                                    mails.setImage(image)
+                                                                } catch(e) {
+                                                                    mails.setImage(client.config.defaultimage)
+                                                                }
                                                                 for(let data of rows) {
                                                                     const deChannel = await client.channels.cache.get(data.channelid)
                                                                     if(!deChannel) {
@@ -141,10 +151,13 @@ exports.run = async (client, message, args, con) => {
                                                             .setTitle(`You Were Blacklisted!`)
                                                             .setDescription(`**Reason:** ${content2}\n\n**You can appeal this blacklist [here](${client.config.supportServerInvite})**`)
                                                             .setThumbnail(`${client.user.displayAvatarURL()}`)
-                                                            .setImage(`${image}`)
                                                             .setTimestamp()
                                                             .setFooter(`${client.config.copyright}`)
-
+                                                            try {
+                                                                flipembed.setImage(image)
+                                                            } catch(e) {
+                                                                flipembed.setImage(client.config.defaultimage)
+                                                            }
                                                             try {
                                                                 const founduser = client.users.cache.get(content1)
                                                                 founduser.send(flipembed)
@@ -165,7 +178,8 @@ exports.run = async (client, message, args, con) => {
         
                     }).catch(e => {});
                 }).catch(e => {if(client.config.debugmode) return console.log(e);});
-
+            }
+        });
             }).catch(e => {});
         }).catch(e => {if(client.config.debugmode) return console.log(e);});
 
