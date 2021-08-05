@@ -102,7 +102,7 @@ module.exports = async(client, con, ready) => {
                 }).catch(e => {
                     console.error(e);
                 });
-            }, 2200);
+            }, 3800);
         }, 2000)
 
         // Presence Settings

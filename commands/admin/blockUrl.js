@@ -45,8 +45,8 @@ exports.run = async (client, message, args, con) => {
 }
 
 exports.info = {
-    name: "blockUrl",
+    name: "blockurl",
     description: "This is a command for the owner of the bot...",
-    useAliases: false,
-    aliases: []
+    useAliases: true,
+    aliases: ['urlblock']
 }
