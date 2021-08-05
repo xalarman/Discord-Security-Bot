@@ -63,6 +63,13 @@ exports.run = async (client, message, args, con) => {
                                 let content3;
                                 content3 = collected.first().content;
                                 let test = await client.users.fetch(content1)
+				if(!test) return message.channel.send('That user does not exist.');
+				await con.query(`SELECT * FROM bannedusers WHERE userid='${content1}'`, async (err, row) => {
+					if(err) throw err;
+					if(row[0]) {
+						return message.channel.send(`That user ID is already banned.`);
+					}
+				});
                                 let founded = test.tag.replace("'", "").replace("`", "").replace("\\", "").replace(";", "")
                                 let reason = content2
                                 let image;

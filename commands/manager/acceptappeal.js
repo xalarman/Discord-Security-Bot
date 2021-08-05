@@ -76,7 +76,13 @@ exports.run = async (client, message, args, con) => {
                                         .setFooter(`${client.config.copyright}`)
                                     for (let data of rows) {
                                         let channel = client.channels.cache.find(c => c.id === data.channelid);
-                                        if (channel) channel.send(banned).catch(() => {});
+                                        if (!channel) {
+                                            await con.query(`DELETE FROM loggingchannels WHERE channelid='${data.channelid}'`, async (err, row) => {
+                                                if(err) throw err;
+                                            });
+                                        } else {
+                                            await channel.send(banned).catch(() => {});
+                                        }
                                     };
                                     con.query(`SELECT * FROM guilds WHERE autounbans='true' AND active='true'`, async(err, row) => {
                                         if (err) throw err;

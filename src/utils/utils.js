@@ -41,7 +41,7 @@ async function enforcer(client, con, enfmember, enfreason, enfembed) {
                 if(err) throw err;
                 for(let datas of rows) {
                     let deChannel = await client.channels.cache.get(datas.channelid)
-                    deChannel.send(enfembed).catch(e => {});
+                    await deChannel.send(enfembed).catch(e => {});
                 }
             });
         }

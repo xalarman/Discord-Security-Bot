@@ -25,7 +25,31 @@ exports.run = async (client, message, args, con) => {
                 if(row[0]) {
                     await con.query(`DELETE FROM blacklistedusers WHERE userid='${pingeduser}'`, async (err, row) => {
                         if(err) throw err;
-                        message.channel.send(`I have removed User ID: \`${pingeduser}\` from the blacklisted users database.`).catch(e => {});
+                        await message.channel.send(`I have removed User ID: \`${pingeduser}\` from the blacklisted users database.`).catch(e => {});
+                        // The Enforcer Shit
+                        await con.query(`SELECT * FROM loggingchannels WHERE type='1'`, async (err, rows) => {
+                            if(err) throw err;
+                            if(rows[0]) {
+                                const founded = await client.users.fetch(pingeduser)
+                                let enfembed = new MessageEmbed()
+                                .setColor(client.config.colorhex)
+                                .setThumbnail(`${client.user.displayAvatarURL()}`)
+                                .setTitle(`Member Unblacklisted!`)
+                                .setDescription(`**Member:** ${founded.tag} - (${founded.id})\n**Staff:** ${message.author.tag} - (${message.author.id})`)
+                                .setTimestamp()
+                                .setFooter(`${client.config.copyright}`);
+                                for(let data of rows) {
+                                    const deChannel = await client.channels.cache.get(data.channelid)
+                                    if(!deChannel) {
+                                        await con.query(`DELETE FROM loggingchannels WHERE channelid='${data.channelid}'`, async (err, row) => {
+                                            if(err) throw err;
+                                        });
+                                    } else {
+                                        await deChannel.send(enfembed).catch(e => {});
+                                    }
+                                }
+                            }
+                        });
                     });
                 } else if(!row[0]) {
                     return message.channel.send(`That user is not in the blacklisted users database.`).catch(e => {});

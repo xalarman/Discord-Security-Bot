@@ -89,6 +89,13 @@ exports.run = async (client, message, args, con) => {
                                                 let banid = rowol[0].total + 1
                                                 let atag = gmessage.author.tag.replace("'", "").replace("`", "").replace("\\", "").replace(";", "")
                                                 let test = await client.users.fetch(content1)
+						if(!test) return message.channel.send('That user does not exist.');
+						await con.query(`SELECT * FROM blacklistedusers WHERE userid='${content1}'`, async (err, row) => {
+							if(err) throw err;
+							if(row[0]) {
+								return message.channel.send(`That user ID is already banned.`);
+							}
+						});
                                                 let founduser = test.tag.replace("'", "").replace("`", "").replace("\\", "").replace(";", "")
                                                 await con.query(`INSERT INTO cases (caseid, caseuserid, caseusertag, casereason, enforcertag, enforcerid) VALUES ('${banid}', '${content1}', '${founduser}', "${content2}", '${atag}', '${gmessage.author.id}')`, async (err, row) => {
                                                     if(err) throw err;
@@ -123,7 +130,7 @@ exports.run = async (client, message, args, con) => {
                                                                             if(err) throw err;
                                                                         });
                                                                     } else {
-                                                                        deChannel.send(mails).catch(e => {});
+                                                                        await deChannel.send(mails).catch(e => {});
                                                                     }
                                                                 }
                                                             }
@@ -132,7 +139,7 @@ exports.run = async (client, message, args, con) => {
                                                             const flipembed = new Discord.MessageEmbed()
                                                             .setColor(`${client.config.colorhex}`)
                                                             .setTitle(`You Were Blacklisted!`)
-                                                            .setDescription(`**Reason:** ${content2}\n\n**You can appeal this ban [here](https://discord.gg/y94hgUe463)**`)
+                                                            .setDescription(`**Reason:** ${content2}\n\n**You can appeal this blacklist [here](${client.config.supportServerInvite})**`)
                                                             .setThumbnail(`${client.user.displayAvatarURL()}`)
                                                             .setImage(`${image}`)
                                                             .setTimestamp()
