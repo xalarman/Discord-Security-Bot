@@ -8,7 +8,7 @@ const app = express()
 
 function apistart(client, con) {
     setTimeout(async () => {
-    app.listen(client.config.clientAPI.port, null, null, () => console.log(chalk.blue(`API is up and running on port ${client.config.clientAPI.port}.`)));
+    app.listen(client.config.clientAPI.port, null, null, () => console.log(chalk.red(`API is up and running on port ${client.config.clientAPI.port}.`)));
 
         // Ready
         app.get('/', (req, res) => {

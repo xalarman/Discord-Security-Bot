@@ -5,7 +5,7 @@
 -- DO NOT RUN THIS FILE IF YOU ARE INSTALLING THE BOT FOR THE FIRST TIME
 
 CREATE TABLE urlstopper (
-    guild varchar(255),
+    guildid varchar(255),
     message TEXT
 );
 

@@ -1,7 +1,7 @@
 let i = 0;
 const fs = require('fs')
 const chalk = require('chalk');
-const nodelogger = require('nodelogger')
+const nodelogger = require('hyperz-nodelogger')
 const logger = new nodelogger()
 const ms = require('ms')
 const Importer = require('mysql-import');
@@ -50,10 +50,8 @@ module.exports = async(client, con, ready) => {
             // Sexy Console Logger Thingy
             let commandcount = client.config.command_count;
             let eventcount = client.config.event_count;
-            let frick = `${chalk.white(`Watching `)}${chalk.blue(client.guilds.cache.size)}${chalk.white(' guilds with ')}${chalk.blue(client.users.cache.size)}${chalk.white(' users!')}\n\n${chalk.white(`Client Tag: `)}${chalk.blue(client.user.tag)}\n${chalk.white(`Client ID: `)}${chalk.blue(client.user.id)}\n${chalk.white('Client Age: ')}${chalk.blue(client.user.createdAt.toLocaleString())}\n\n${chalk.white(`Main Prefix: `)}${chalk.blue(client.config.prefix)}${chalk.yellow(' (Default)')}\n${chalk.white(`Commands: `)}${chalk.blue(commandcount)}\n${chalk.white(`Events: `)}${chalk.blue(eventcount)}\n\n${chalk.white(`Created By: `)}${chalk.blue('Hyperz#0001')}\n${chalk.white('Debug Mode: ')}${chalk.yellow(client.config.debugmode)}`;
+            let frick = `${chalk.white(`Watching `)}${chalk.red(client.guilds.cache.size)}${chalk.white(' guilds with ')}${chalk.red(client.users.cache.size)}${chalk.white(' users!')}\n\n${chalk.white(`Client Tag: `)}${chalk.red(client.user.tag)}\n${chalk.white(`Client ID: `)}${chalk.red(client.user.id)}\n${chalk.white('Client Age: ')}${chalk.red(client.user.createdAt.toLocaleString())}\n\n${chalk.white(`Main Prefix: `)}${chalk.red(client.config.prefix)}${chalk.yellow(' (Default)')}\n${chalk.white(`Commands: `)}${chalk.red(commandcount)}\n${chalk.white(`Events: `)}${chalk.red(eventcount)}\n\n${chalk.white(`Created By: `)}${chalk.red('Hyperz#0001')}\n${chalk.white('Debug Mode: ')}${chalk.yellow(client.config.debugmode)}`;
             logger.hypelogger(`${client.user.username}`, '600', 'red', frick, 'disabled', 'red', 'single', true)
-            console.log(`\n\n    ------ CONSOLE LOGGING BEGINS BELOW ------\n\n`)
-            console.log("Bot started successfully"); // Allows for docker ready event
             
             await client.guilds.cache.forEach(async g => {
                 await con.query(`SELECT * FROM guilds WHERE guildid='${g.id}'`, async(err, row) => {

@@ -33,8 +33,10 @@ const init = async() => {
         try {
             con = mysql.createConnection(client.config.database)
             setTimeout(() => {
+                console.log(`\n\n    ------ CONSOLE LOGGING BEGINS BELOW ------\n\n`)
                 console.log('MySQL Successfully Connected')
-            }, 4300);
+                console.log("Bot started successfully"); // Allows for docker ready event
+            }, 6300);
         } catch (e) {
             client.utils.error(client, e)
             return process.exit(1);
