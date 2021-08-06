@@ -66,7 +66,7 @@ exports.run = async (client, message, args, con) => {
 
                                 await con.query(`UPDATE bannedusers SET caseid='${banid}' WHERE userid='${row[0].reportedid}'`, async (errolll, rowolll) => {
 
-                                    await con.query(`UPDATE reports SET active='false' uniqueid="${args[0]}"`, async (errollll, rowollll) => {
+                                    await con.query(`UPDATE reports SET active='false' WHERE uniqueid="${args[0]}"`, async (errollll, rowollll) => {
 
                                     const thecase = new MessageEmbed()
                                         .setColor(client.config.colorhex)
