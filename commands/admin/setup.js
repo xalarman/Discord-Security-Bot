@@ -187,7 +187,7 @@ async function builder(client, con, message, Discord, gmessage, content1, conten
                     if(err) throw err;
                 });
             } else {
-                await con.query(`UPDATE loggingchannels SET channelid='${content1}', enforcerid='${message.author.id}'`, async (err, row) => {
+                await con.query(`UPDATE loggingchannels SET channelid='${content1}', enforcerid='${message.author.id}' WHERE guildid='${message.guild.id}'`, async (err, row) => {
                     if(err) throw err;
                 });
             }
