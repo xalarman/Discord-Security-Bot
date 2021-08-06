@@ -2,6 +2,16 @@
 
 An advanced Discord Security bot, including a ban database, watchlist, sticky messages, server lockdown, and embed builder. Supports multiple servers.
 
+---
+
+# FREE INSTALLATION
+
+If you go over to [Snowside Hosting](https://snowsidehosting.com) you can get this bot PRE-INSTALLED for easy use and such with just 1 click!
+
+![](https://cdn.hyperz.dev/v0z91gyn.png)
+
+---
+
 # Dependencies
 
 ```
