@@ -129,7 +129,8 @@ exports.run = async (client, message, args, con) => {
                                                     .setFooter(`${client.config.copyright}`)
 
                                                     try {
-                                                        const founduser = await client.users.cache.get(row[0].reportedid)
+                                                        const founduser = await client.users.fetch(row[0].reportedid)
+                                                        if(!founduser) return message.channel.send(`ERROR FINDING ID IN THE REPORT!`);
                                                         founduser.send(embed).catch(e => {});
                                                     } catch (e) {
                                                         if (client.config.debugmode) return console.log(e);
