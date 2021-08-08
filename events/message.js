@@ -57,6 +57,7 @@ module.exports = async(client, con, message) => {
     if(message.content.includes(`discord.gg`) || message.content.includes(`discord.com/invite`)) {
         await con.query(`SELECT * FROM whitelist WHERE userid='${message.author.id}' AND guildid='${message.guild.id}'`, async (err, row) => {
             if(err) throw err;
+            if(!message.member) return;
             if(!row[0] && !message.member.hasPermission('ADMINISTRATOR')) {
                 await con.query(`SELECT * FROM guilds WHERE guildid='${message.guild.id}'`, async(err, row) => {
                     if(err) throw err;
