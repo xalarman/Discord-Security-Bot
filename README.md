@@ -62,4 +62,4 @@ localhost:3000/guilds/GUILD_ID_HERE                     -- Grabs a guild
 
 ![](https://cdn.hyperz.dev/8kur5o2r.png)
 
-There is more, download the bot and run it to give it a shot!
+There is more, download the bot and run it to give it a shot!!!
