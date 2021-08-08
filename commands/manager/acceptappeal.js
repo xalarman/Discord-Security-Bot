@@ -88,7 +88,7 @@ exports.run = async (client, message, args, con) => {
                                         if (err) throw err;
                                         con.query(`UPDATE appeals SET active='fase' WHERE uniqueid="${args[0]}"`, (err, row) => {});
                                         for (let data of row) {
-                                            let guild = client.guilds.cache.find(g => g.id === data.id);
+                                            let guild = client.guilds.cache.find(g => g.id === data.guildid);
                                             if (guild) guild.members.unban(deUser).catch(() => {});
                                         };
                                     });
