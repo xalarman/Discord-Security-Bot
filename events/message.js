@@ -35,15 +35,17 @@ module.exports = async(client, con, message) => {
                         message.delete().catch(e => {})
                         await con.query(`SELECT * FROM loggingchannels WHERE guildid='${message.guild.id}' AND type='1'`, async (err, row) => {
                             if(err) throw err;
-                            let deChannel = await client.channels.cache.get(row[0].channelid)
-                            let embed = new MessageEmbed()
-                            .setColor(client.config.colorhex)
-                            .setTitle(`URL Moderated!`)
-                            .setDescription(`I have deleted a blacklisted url!\n\n**Channel:** <#${message.channel.id}>\n**Member:** <@${message.author.id}> (${message.author.tag})\n**Blocked URL:** ${data.message}\n**Message Content:**\n\`\`\`\n${message.content}\n\`\`\``)
-                            .setTimestamp()
-                            .setFooter(client.config.copyright)
-                            try { embed.setThumbnail(client.user.avatarURL({ dynamic: true })) } catch(e) {}
-                            await deChannel.send(embed).catch(e => {});
+                            if(row[0] {
+                                let deChannel = await client.channels.cache.get(row[0].channelid)
+                                let embed = new MessageEmbed()
+                                .setColor(client.config.colorhex)
+                                .setTitle(`URL Moderated!`)
+                                .setDescription(`I have deleted a blacklisted url!\n\n**Channel:** <#${message.channel.id}>\n**Member:** <@${message.author.id}> (${message.author.tag})\n**Blocked URL:** ${data.message}\n**Message Content:**\n\`\`\`\n${message.content}\n\`\`\``)
+                                .setTimestamp()
+                                .setFooter(client.config.copyright)
+                                try { embed.setThumbnail(client.user.avatarURL({ dynamic: true })) } catch(e) {}
+                                await deChannel.send(embed).catch(e => {});
+                            }
                         });
                     }
                 });
