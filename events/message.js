@@ -35,7 +35,7 @@ module.exports = async(client, con, message) => {
                         message.delete().catch(e => {})
                         await con.query(`SELECT * FROM loggingchannels WHERE guildid='${message.guild.id}' AND type='1'`, async (err, row) => {
                             if(err) throw err;
-                            if(row[0] {
+                            if(row[0]) {
                                 let deChannel = await client.channels.cache.get(row[0].channelid)
                                 let embed = new MessageEmbed()
                                 .setColor(client.config.colorhex)
