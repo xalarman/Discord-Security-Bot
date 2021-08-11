@@ -26,16 +26,16 @@ exports.run = async (client, message, args, con) => {
                     .setURL(`https://hyperz.dev/`)
                     .setDescription(`✅ All settings are up to date.\n\n**You can review your current guild settings below!**`)
                     .addFields(
-                        { name: `Guild ID`, value: `${message.guild.id}`, inline: true },
                         { name: `Logging`, value: `true`, inline: true },
                         { name: `Log Channel`, value: `<#${row[0].channelid}>`, inline: true },
+                        { name: `Extra Logs`, value: `${flip.logall}`, inline: true },
                         { name: `Invite Blocker`, value: `${flip.inviteblocker}`, inline: true },
                         { name: `Auto-Bans`, value: `${flip.autobans}`, inline: true },
                         { name: `Auto-Unbans`, value: `${flip.autounbans}`, inline: true },
                         { name: `Alt Prevention`, value: `${flip.altprev}`, inline: true },
                         { name: `Alt Prevention Timer`, value: `${flip.altprevtimer}`, inline: true }
                     )
-                    .setFooter(`${client.config.copyright} | ${gmessage.author.tag}`)
+                    .setFooter(`Guild: ${message.guild.id} | ${gmessage.author.tag}`)
                     try { embed.setThumbnail(gmessage.author.avatarURL({ dynamic: true })) } catch(e) {}
                     message.channel.send(embed).catch(e => {
                         console.log(e)
@@ -47,16 +47,16 @@ exports.run = async (client, message, args, con) => {
                     .setURL(`https://hyperz.dev/`)
                     .setDescription(`✅ All settings are up to date.\n\n**You can review your current guild settings below!**`)
                     .addFields(
-                        { name: `Guild ID`, value: `${message.guild.id}`, inline: true },
                         { name: `Logging`, value: `false`, inline: true },
                         { name: `Log Channel`, value: `N/A`, inline: true },
+                        { name: `Extra Logs`, value: `false`, inline: true },
                         { name: `Invite Blocker`, value: `${flip.inviteblocker}`, inline: true },
                         { name: `Auto-Bans`, value: `${flip.autobans}`, inline: true },
                         { name: `Auto-Unbans`, value: `${flip.autounbans}`, inline: true },
                         { name: `Alt Prevention`, value: `${flip.altprev}`, inline: true },
                         { name: `Alt Prevention Timer`, value: `${flip.altprevtimer}`, inline: true }
                     )
-                    .setFooter(`${client.config.copyright} | ${gmessage.author.tag}`)
+                    .setFooter(`Guild: ${message.guild.id} | ${gmessage.author.tag}`)
                     try { embed.setThumbnail(gmessage.author.avatarURL({ dynamic: true })) } catch(e) {}
                     message.channel.send(embed).catch(e => {
                         console.log(e)

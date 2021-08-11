@@ -7,7 +7,8 @@ CREATE TABLE guilds (
     altprev varchar(255),
     altprevtimer varchar(255),
     inviteblocker varchar(255),
-    serverlock varchar(255)
+    serverlock varchar(255),
+    logall varchar(255)
 );
 
 CREATE TABLE whitelist (

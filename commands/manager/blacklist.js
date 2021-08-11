@@ -118,33 +118,21 @@ exports.run = async (client, message, args, con) => {
                                                             msg.delete({ timeout: 14000 })
                                                         });
 
-                                                        // Logging the stuffs
-                                                        await con.query(`SELECT * FROM loggingchannels WHERE type='1'`, async (err, rows) => {
-                                                            if(err) throw err;
-                                                            if(rows[0]) {
-                                                                let mails = new Discord.MessageEmbed()
-                                                                .setColor(client.config.colorhex)
-                                                                .setTitle(`Blacklisted!`)
-                                                                .setDescription(`**Member:** ${founduser} - (${content1})\n**Reason:** ${content2}\n**Case #:** ${banid}\n**Severity:** Medium\n**Date / Time:** ${datetime}`)
-                                                                .setTimestamp()
-                                                                .setFooter(`${client.config.copyright}`);
-                                                                try {
-                                                                    mails.setImage(image)
-                                                                } catch(e) {
-                                                                    mails.setImage(client.config.defaultimage)
-                                                                }
-                                                                for(let data of rows) {
-                                                                    const deChannel = await client.channels.cache.get(data.channelid)
-                                                                    if(!deChannel) {
-                                                                        await con.query(`DELETE FROM loggingchannels WHERE channelid='${data.channelid}'`, async (err, row) => {
-                                                                            if(err) throw err;
-                                                                        });
-                                                                    } else {
-                                                                        await deChannel.send(mails).catch(e => {});
-                                                                    }
-                                                                }
+                                                            // Logging the stuffs
+                                                            let enfmember = content1;
+                                                            let enfreason = content2;
+                                                            let mails = new Discord.MessageEmbed()
+                                                            .setColor(client.config.colorhex)
+                                                            .setTitle(`Blacklisted!`)
+                                                            .setDescription(`**Member:** ${founduser} - (${content1})\n**Reason:** ${content2}\n**Case #:** ${banid}\n**Severity:** Medium\n**Date / Time:** ${datetime}`)
+                                                            .setTimestamp()
+                                                            .setFooter(`${client.config.copyright}`);
+                                                            try {
+                                                                mails.setImage(image)
+                                                            } catch(e) {
+                                                                mails.setImage(client.config.defaultimage)
                                                             }
-                                                        });
+                                                            client.utils.enforcer(client, con, 'blacklist', enfmember, enfreason, mails)
 
                                                             const flipembed = new Discord.MessageEmbed()
                                                             .setColor(`${client.config.colorhex}`)

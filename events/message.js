@@ -24,6 +24,20 @@ module.exports = async(client, con, message) => {
         });
     }
 
+    if(message.mentions.users.first()) {
+        if(message.mentions.users.first().id === client.user.id) {
+            await con.query(`SELECT * FROM guilds WHERE guildid='${message.guild.id}'`, async (err, row) => {
+                if(err) throw err;
+                if(row[0]) {
+                    let prefixembed = new MessageEmbed()
+                    .setColor(client.config.colorhex)
+                    .setDescription(`This guilds prefix is \`${row[0].prefix}\``)
+                    message.channel.send(prefixembed).catch(e => {});
+                }
+            });
+        }
+    }
+
     // Blocked URL Checker
     await con.query(`SELECT * FROM urlstopper WHERE guildid='${message.guild.id}'`, async (err, rows) => {
         if(err) throw err;

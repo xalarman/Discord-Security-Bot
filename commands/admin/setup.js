@@ -22,6 +22,10 @@ exports.run = async (client, message, args, con) => {
         .setColor(client.config.colorhex)
         .setDescription(`**What channel would you like logs to be posted too?**\nUse \`na\` to disable logging.`)
 
+        const prompt0 = new Discord.MessageEmbed()
+        .setColor(client.config.colorhex)
+        .setDescription(`**Would you like for bans and blacklists to be logged?**\nUse \`yes\` or \`no\`.`)
+
         const prompt1 = new Discord.MessageEmbed()
         .setColor(client.config.colorhex)
         .setDescription(`**Would you like users to be auto-unbanned when their appeals are approved?**\nUse \`yes\` or \`no\`.`)
@@ -66,11 +70,10 @@ exports.run = async (client, message, args, con) => {
                     content1 = channelfinder.id
                 }
 
-
-                message.channel.send(prompt1).then(async message => {
+                message.channel.send(prompt0).then(async message => {
                     message.channel.awaitMessages(filter, { max: 1, time: 1000000, errors: ['time'] })
                     .then(async collected => {
-                        
+
                         let content2;
                         let req = collected.first().content.toLowerCase()
                         if(req === 'yes') {
@@ -81,82 +84,100 @@ exports.run = async (client, message, args, con) => {
                             message.channel.send(`**Invalid Answer Submitted.** Set to \`false\` by default.`)
                             content2 = 'false';
                         }
-        
-                        message.channel.send(prompt2).then(async message => {
-                            message.channel.awaitMessages(filter, { max: 1, time: 1000000, errors: ['time'] })
-                            .then(async collected => {
-                                
-                                let content3;
-                                let req = collected.first().content.toLowerCase()
-                                if(req === 'yes') {
-                                    content3 = 'true';
-                                } else if(req === 'no') {
-                                    content3 = 'false';
-                                } else {
-                                    message.channel.send(`**Invalid Answer Submitted.** Set to \`false\` by default.`)
-                                    content3 = 'false';
-                                }
-                
-                                message.channel.send(prompt3).then(async message => {
-                                    message.channel.awaitMessages(filter, { max: 1, time: 1000000, errors: ['time'] })
-                                    .then(async collected => {
-                                        
-                                        let content4;
-                                        let req = collected.first().content.toLowerCase()
-                                        if(req === 'yes') {
-                                            content4 = 'true';
-                                        } else if(req === 'no') {
-                                            content4 = 'false';
-                                        } else {
-                                            message.channel.send(`**Invalid Answer Submitted.** Set to \`false\` by default.`)
-                                            content4 = 'false';
-                                        }
-                        
-                                        message.channel.send(prompt4).then(async message => {
-                                            message.channel.awaitMessages(filter, { max: 1, time: 1000000, errors: ['time'] })
-                                            .then(async collected => {
-                                                
-                                                let req = collected.first().content.toLowerCase()
-                                                if(req === 'yes') {
-                                                    let content5 = 'true';
-                                                    message.channel.send(prompt42).then(async message => {
-                                                        message.channel.awaitMessages(filter, { max: 1, time: 1000000, errors: ['time'] })
-                                                        .then(async collected => {
-                                                            
-                                                            let content6 = collected.first().content.toLowerCase()
-                                        
-                                                            message.channel.send(lastprompt).catch(e => {});
-                                            
-                                                            builder(client, con, message, Discord, gmessage, content1, content2, content3, content4, content5, content6)
 
-                                                        }).catch(e => {});
-                                                    }).catch(e => {if(client.config.debugmode) return console.log(e);});
-                                                } else if(req === 'no') {
-                                                    let content5 = 'false';
-                                                    let content6 = 'none';
-                                                    builder(client, con, message, Discord, gmessage, content1, content2, content3, content4, content5, content6)
-                                                    message.channel.send(lastprompt).catch(e => {});
-                                                } else {
-                                                    message.channel.send(`**Invalid Answer Submitted.** Set to \`false\` by default.`)
-                                                    let content5 = 'false';
-                                                    let content6 = 'none';
-                                                    builder(client, con, message, Discord, gmessage, content1, content2, content3, content4, content5, content6)
-                                                    message.channel.send(lastprompt).catch(e => {});
-                                                }
-                                
+                    message.channel.send(prompt1).then(async message => {
+                        message.channel.awaitMessages(filter, { max: 1, time: 1000000, errors: ['time'] })
+                        .then(async collected => {
+                            
+                            let content3;
+                            let req = collected.first().content.toLowerCase()
+                            if(req === 'yes') {
+                                content3 = 'true';
+                            } else if(req === 'no') {
+                                content3 = 'false';
+                            } else {
+                                message.channel.send(`**Invalid Answer Submitted.** Set to \`false\` by default.`)
+                                content3 = 'false';
+                            }
+            
+                            message.channel.send(prompt2).then(async message => {
+                                message.channel.awaitMessages(filter, { max: 1, time: 1000000, errors: ['time'] })
+                                .then(async collected => {
+                                    
+                                    let content4;
+                                    let req = collected.first().content.toLowerCase()
+                                    if(req === 'yes') {
+                                        content4 = 'true';
+                                    } else if(req === 'no') {
+                                        content4 = 'false';
+                                    } else {
+                                        message.channel.send(`**Invalid Answer Submitted.** Set to \`false\` by default.`)
+                                        content4 = 'false';
+                                    }
+                    
+                                    message.channel.send(prompt3).then(async message => {
+                                        message.channel.awaitMessages(filter, { max: 1, time: 1000000, errors: ['time'] })
+                                        .then(async collected => {
+                                            
+                                            let content5;
+                                            let req = collected.first().content.toLowerCase()
+                                            if(req === 'yes') {
+                                                content5 = 'true';
+                                            } else if(req === 'no') {
+                                                content5 = 'false';
+                                            } else {
+                                                message.channel.send(`**Invalid Answer Submitted.** Set to \`false\` by default.`)
+                                                content5 = 'false';
+                                            }
+                            
+                                            message.channel.send(prompt4).then(async message => {
+                                                message.channel.awaitMessages(filter, { max: 1, time: 1000000, errors: ['time'] })
+                                                .then(async collected => {
+                                                    
+                                                    let req = collected.first().content.toLowerCase()
+                                                    if(req === 'yes') {
+                                                        let content6 = 'true';
+                                                        message.channel.send(prompt42).then(async message => {
+                                                            message.channel.awaitMessages(filter, { max: 1, time: 1000000, errors: ['time'] })
+                                                            .then(async collected => {
+                                                                
+                                                                let content7 = collected.first().content.toLowerCase()
+                                            
+                                                                message.channel.send(lastprompt).catch(e => {});
                                                 
-                                
-                                            }).catch(e => {});
-                                        }).catch(e => {if(client.config.debugmode) return console.log(e);});
-                        
-                                    }).catch(e => {});
-                                }).catch(e => {if(client.config.debugmode) return console.log(e);});
-                
-                            }).catch(e => {});
-                        }).catch(e => {if(client.config.debugmode) return console.log(e);});
-        
-                    }).catch(e => {});
-                }).catch(e => {if(client.config.debugmode) return console.log(e);});
+                                                                builder(client, con, message, Discord, gmessage, content1, content2, content3, content4, content5, content6, content7)
+
+                                                            }).catch(e => {});
+                                                        }).catch(e => {if(client.config.debugmode) return console.log(e);});
+                                                    } else if(req === 'no') {
+                                                        let content6 = 'false';
+                                                        let content7 = 'none';
+                                                        builder(client, con, message, Discord, gmessage, content1, content2, content3, content4, content5, content6, content7)
+                                                        message.channel.send(lastprompt).catch(e => {});
+                                                    } else {
+                                                        message.channel.send(`**Invalid Answer Submitted.** Set to \`false\` by default.`)
+                                                        let content6 = 'false';
+                                                        let content7 = 'none';
+                                                        builder(client, con, message, Discord, gmessage, content1, content2, content3, content4, content5, content6, content7)
+                                                        message.channel.send(lastprompt).catch(e => {});
+                                                    }
+                                    
+                                                    
+                                    
+                                                }).catch(e => {});
+                                            }).catch(e => {if(client.config.debugmode) return console.log(e);});
+                            
+                                        }).catch(e => {});
+                                    }).catch(e => {if(client.config.debugmode) return console.log(e);});
+                    
+                                }).catch(e => {});
+                            }).catch(e => {if(client.config.debugmode) return console.log(e);});
+            
+                        }).catch(e => {});
+                    }).catch(e => {if(client.config.debugmode) return console.log(e);});
+
+                }).catch(e => {});
+            }).catch(e => {if(client.config.debugmode) return console.log(e);});
 
             }).catch(e => {});
         }).catch(e => {if(client.config.debugmode) return console.log(e);});
@@ -178,7 +199,7 @@ exports.info = {
     aliases: []
 }
 
-async function builder(client, con, message, Discord, gmessage, content1, content2, content3, content4, content5, content6) {
+async function builder(client, con, message, Discord, gmessage, content1, content2, content3, content4, content5, content6, content7) {
     if(content1 != 'none') {
         await con.query(`SELECT * FROM loggingchannels WHERE guildid='${message.guild.id}'`, async (err, row) => {
             if(err) throw err;
@@ -192,7 +213,7 @@ async function builder(client, con, message, Discord, gmessage, content1, conten
                 });
             }
         });
-        await con.query(`UPDATE guilds SET autounbans='${content2}', autobans='${content3}', inviteblocker='${content4}', altprev='${content5}', altprevtimer='${content6}' WHERE guildid='${message.guild.id}'`, async(err, row) => {
+        await con.query(`UPDATE guilds SET logall='${content2}', autounbans='${content3}', autobans='${content4}', inviteblocker='${content5}', altprev='${content6}', altprevtimer='${content7}' WHERE guildid='${message.guild.id}'`, async(err, row) => {
             if(err) throw err;
         });
         let embed = new Discord.MessageEmbed()
@@ -201,16 +222,16 @@ async function builder(client, con, message, Discord, gmessage, content1, conten
         .setURL(`https://hyperz.dev/`)
         .setDescription(`✅ All settings have been updated.\n\n**You can review your new guild settings below!**`)
         .addFields(
-            { name: `Guild ID`, value: `${message.guild.id}`, inline: true },
             { name: `Logging`, value: `true`, inline: true },
             { name: `Log Channel`, value: `<#${content1}>`, inline: true },
-            { name: `Invite Blocker`, value: `${content4}`, inline: true },
-            { name: `Auto-Bans`, value: `${content3}`, inline: true },
-            { name: `Auto-Unbans`, value: `${content2}`, inline: true },
-            { name: `Alt Prevention`, value: `${content5}`, inline: true },
-            { name: `Alt Prevention Timer`, value: `${content6}`, inline: true }
+            { name: `Extra Logs`, value: `${content2}`, inline: true },
+            { name: `Invite Blocker`, value: `${content5}`, inline: true },
+            { name: `Auto-Bans`, value: `${content4}`, inline: true },
+            { name: `Auto-Unbans`, value: `${content3}`, inline: true },
+            { name: `Alt Prevention`, value: `${content6}`, inline: true },
+            { name: `Alt Prevention Timer`, value: `${content7}`, inline: true }
         )
-        .setFooter(`${client.config.copyright} | ${gmessage.author.tag}`)
+        .setFooter(`Guild: ${message.guild.id} | ${gmessage.author.tag}`)
         try { embed.setThumbnail(gmessage.author.avatarURL({ dynamic: true })) } catch(e) {}
         message.channel.send(embed).catch(e => {
             console.log(e)
@@ -224,7 +245,7 @@ async function builder(client, con, message, Discord, gmessage, content1, conten
                 await con.query(`DELETE FROM loggingchannels WHERE guildid='${message.guild.id}'`)
             }
         });
-        await con.query(`UPDATE guilds SET autounbans='${content2}', autobans='${content3}', inviteblocker='${content4}', altprev='${content5}', altprevtimer='${content6}' WHERE guildid='${message.guild.id}'`, async(err, row) => {
+        await con.query(`UPDATE guilds SET logall='${content2}', autounbans='${content3}', autobans='${content4}', inviteblocker='${content5}', altprev='${content6}', altprevtimer='${content7}' WHERE guildid='${message.guild.id}'`, async(err, row) => {
             if(err) throw err;
         });
         let embed = new Discord.MessageEmbed()
@@ -233,16 +254,16 @@ async function builder(client, con, message, Discord, gmessage, content1, conten
         .setURL(`https://hyperz.dev/`)
         .setDescription(`✅ All settings have been updated.\n\n**You can review your new guild settings below!**`)
         .addFields(
-            { name: `Guild ID`, value: `${message.guild.id}`, inline: true },
             { name: `Logging`, value: `false`, inline: true },
             { name: `Log Channel`, value: `${content1}`, inline: true },
-            { name: `Invite Blocker`, value: `${content4}`, inline: true },
-            { name: `Auto-Bans`, value: `${content3}`, inline: true },
-            { name: `Auto-Unbans`, value: `${content2}`, inline: true },
-            { name: `Alt Prevention`, value: `${content5}`, inline: true },
-            { name: `Alt Prevention Timer`, value: `${content6}`, inline: true }
+            { name: `Extra Logs`, value: `${content2}`, inline: true },
+            { name: `Invite Blocker`, value: `${content5}`, inline: true },
+            { name: `Auto-Bans`, value: `${content4}`, inline: true },
+            { name: `Auto-Unbans`, value: `${content3}`, inline: true },
+            { name: `Alt Prevention`, value: `${content6}`, inline: true },
+            { name: `Alt Prevention Timer`, value: `${content7}`, inline: true }
         )
-        .setFooter(`${client.config.copyright} | ${gmessage.author.tag}`)
+        .setFooter(`Guild: ${message.guild.id} | ${gmessage.author.tag}`)
         try { embed.setThumbnail(gmessage.author.avatarURL({ dynamic: true })) } catch(e) {}
         message.channel.send(embed).catch(e => {
             console.log(e)

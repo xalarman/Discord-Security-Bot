@@ -28,13 +28,13 @@ async function error(client, content) {
 };
 
 async function guildload(client, con, message) {
-    await con.query(`INSERT INTO guilds (active, guildid, prefix, autobans, autounbans, altprev, altprevtimer, inviteblocker, serverlock) VALUES ('true', '${message.guild.id}', '${client.config.prefix}', 'false', 'false', 'false', '30d', 'false', 'false')`, async (err, row) => {
+    await con.query(`INSERT INTO guilds (active, guildid, prefix, autobans, autounbans, altprev, altprevtimer, inviteblocker, serverlock, logall) VALUES ('true', '${message.guild.id}', '${client.config.prefix}', 'false', 'false', 'false', '30d', 'false', 'false', 'false')`, async (err, row) => {
         if(err) throw err;
     });
 };
 
-async function enforcer(client, con, enfmember, enfreason, enfembed) {
-    await con.query(`SELECT * FROM guilds WHERE active='true'`, async (err, row) => {
+async function enforcer(client, con, type, enfmember, enfreason, enfembed) {
+    await con.query(`SELECT * FROM guilds WHERE active='true' AND logall='true'`, async (err, row) => {
         if(err) throw err;
         for(let data of row) {
             await con.query(`SELECT * FROM loggingchannels WHERE guildid='${data.guildid}' AND type='1'`, async (err, rows) => {
@@ -47,15 +47,17 @@ async function enforcer(client, con, enfmember, enfreason, enfembed) {
         }
     });
 
-    await con.query(`SELECT * FROM guilds WHERE autobans='true' AND active='true'`, async (err, row) => {
-        if(err) throw err;
-        for(let data of row) {
-            let deGuild = await client.guilds.cache.get(data.guildid)
-            await deGuild.members.ban(enfmember, {
-                reason: `${enfreason} - ${client.user.tag}`
-            }).catch(e => {});
-        }
-    });
+    if(type === 'ban') {
+        await con.query(`SELECT * FROM guilds WHERE autobans='true' AND active='true'`, async (err, row) => {
+            if(err) throw err;
+            for(let data of row) {
+                let deGuild = await client.guilds.cache.get(data.guildid)
+                await deGuild.members.ban(enfmember, {
+                    reason: `${enfreason} - ${client.user.tag}`
+                }).catch(e => {});
+            }
+        });
+    }
 }
 
 exports.enforcer = enforcer;

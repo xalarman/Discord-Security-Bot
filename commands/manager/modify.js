@@ -114,7 +114,7 @@ exports.run = async (client, message, args, con) => {
                                                         .setTimestamp()
                                                         .setImage(image)
                                                         .setFooter(`${client.config.copyright}`);
-                                                        client.utils.enforcer(client, con, enfmember, enfreason, enfembed)
+                                                        client.utils.enforcer(client, con, 'update', enfmember, enfreason, enfembed)
                                                     }
                                                 });
 
@@ -198,7 +198,7 @@ exports.run = async (client, message, args, con) => {
                                                         .setTimestamp()
                                                         .setImage(image)
                                                         .setFooter(`${client.config.copyright}`);
-                                                        client.utils.enforcer(client, con, enfmember, enfreason, enfembed)
+                                                        client.utils.enforcer(client, con, 'update', enfmember, enfreason, enfembed)
                                                     }
                                                 });
 

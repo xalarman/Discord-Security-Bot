@@ -34,9 +34,6 @@ exports.run = async (client, message, args, con) => {
                             await message.channel.send(`I have removed User ID: \`${pingeduser}\` from the banned users database.`).catch(e => {});
 
                             // The Enforcer Shit
-                            await con.query(`SELECT * FROM loggingchannels WHERE type='1'`, async (err, rows) => {
-                                if(err) throw err;
-                                if(rows[0]) {
                                     const founded = await client.users.fetch(pingeduser)
                                     let enfembed = new MessageEmbed()
                                     .setColor(client.config.colorhex)
@@ -45,18 +42,7 @@ exports.run = async (client, message, args, con) => {
                                     .setDescription(`**Member:** ${founded.tag} - (${founded.id})\n**Staff:** ${message.author.tag} - (${message.author.id})`)
                                     .setTimestamp()
                                     .setFooter(`${client.config.copyright}`);
-                                    for(let data of rows) {
-                                        const deChannel = await client.channels.cache.get(data.channelid)
-                                        if(!deChannel) {
-                                            await con.query(`DELETE FROM loggingchannels WHERE channelid='${data.channelid}'`, async (err, row) => {
-                                                if(err) throw err;
-                                            });
-                                        } else {
-                                            await deChannel.send(enfembed).catch(e => {});
-                                        }
-                                    }
-                                }
-                            });
+                                    client.utils.enforcer(client, con, 'unban', pingeduser, 'na', enfembed)
                         });
                     });
                 } else if(!row[0]) {

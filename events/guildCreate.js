@@ -8,7 +8,7 @@ module.exports = async(client, con, guild) => {
                 if(err) throw err;
             });
         } else {
-            await con.query(`INSERT INTO guilds (active, guildid, prefix, autobans, autounbans, altprev, altprevtimer, inviteblocker, serverlock) VALUES ('true', '${guild.id}', '${client.config.prefix}', 'false', 'false', 'false', '30d', 'false', 'false')`, async (err, row) => {
+            await con.query(`INSERT INTO guilds (active, guildid, prefix, autobans, autounbans, altprev, altprevtimer, inviteblocker, serverlock, logall) VALUES ('true', '${guild.id}', '${client.config.prefix}', 'false', 'false', 'false', '30d', 'false', 'false', 'false')`, async (err, row) => {
                 if(err) throw err;
             });
         }

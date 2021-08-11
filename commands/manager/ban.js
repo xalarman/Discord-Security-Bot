@@ -139,7 +139,7 @@ exports.run = async (client, message, args, con) => {
                                                     } catch(e) {
                                                         enfembed.setImage(client.config.defaultimage)
                                                     }
-                                                    client.utils.enforcer(client, con, enfmember, enfreason, enfembed)
+                                                    client.utils.enforcer(client, con, 'ban', enfmember, enfreason, enfembed)
                                                 });
                                             });
                                         });

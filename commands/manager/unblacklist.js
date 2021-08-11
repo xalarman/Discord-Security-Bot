@@ -38,16 +38,7 @@ exports.run = async (client, message, args, con) => {
                                 .setDescription(`**Member:** ${founded.tag} - (${founded.id})\n**Staff:** ${message.author.tag} - (${message.author.id})`)
                                 .setTimestamp()
                                 .setFooter(`${client.config.copyright}`);
-                                for(let data of rows) {
-                                    const deChannel = await client.channels.cache.get(data.channelid)
-                                    if(!deChannel) {
-                                        await con.query(`DELETE FROM loggingchannels WHERE channelid='${data.channelid}'`, async (err, row) => {
-                                            if(err) throw err;
-                                        });
-                                    } else {
-                                        await deChannel.send(enfembed).catch(e => {});
-                                    }
-                                }
+                                client.utils.enforcer(client, con, 'unblacklist', pingeduser, 'na', enfembed)
                             }
                         });
                     });
