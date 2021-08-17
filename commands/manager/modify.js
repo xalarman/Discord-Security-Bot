@@ -16,8 +16,7 @@ exports.run = async (client, message, args, con) => {
             if(err) throw err;
             if(!row[0]) {
                 return message.channel.send(`You don't have permission to use this command.`);
-            }
-        });
+            } else {
 
         const filter = m => m.author.id === message.author.id;
 
@@ -223,7 +222,8 @@ exports.run = async (client, message, args, con) => {
     } catch(e) {
         if(client.config.debugmode) return console.log(e);
     }
-
+}
+});
     } catch(e) {
         if(client.config.debugmode) return console.log(e);
     }
