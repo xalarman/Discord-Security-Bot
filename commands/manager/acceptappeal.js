@@ -75,14 +75,19 @@ exports.run = async (client, message, args, con) => {
                                         .setTimestamp()
                                         .setFooter(`${client.config.copyright}`)
                                     for (let data of rows) {
-                                        let channel = client.channels.cache.find(c => c.id === data.channelid);
-                                        if (!channel) {
-                                            await con.query(`DELETE FROM loggingchannels WHERE channelid='${data.channelid}'`, async (err, row) => {
-                                                if(err) throw err;
-                                            });
-                                        } else {
-                                            await channel.send(banned).catch(() => {});
-                                        }
+                                        await con.query(`SELECT * FROM guilds WHERE active='true' AND logall='true' AND guildid='${data.guildid}'`, async (err, row) => {
+                                            if(err) throw err;
+                                            if(row[0]) {
+                                                let channel = client.channels.cache.find(c => c.id === data.channelid);
+                                                if (!channel) {
+                                                    await con.query(`DELETE FROM loggingchannels WHERE channelid='${data.channelid}'`, async (err, row) => {
+                                                        if(err) throw err;
+                                                    });
+                                                } else {
+                                                    await channel.send(banned).catch(() => {});
+                                                }
+                                            }
+                                        });
                                     };
                                     con.query(`SELECT * FROM guilds WHERE autounbans='true' AND active='true'`, async(err, row) => {
                                         if (err) throw err;

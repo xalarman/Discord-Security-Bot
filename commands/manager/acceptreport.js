@@ -36,7 +36,7 @@ exports.run = async (client, message, args, con) => {
 
                 const question = new MessageEmbed()
                 .setColor(`${client.config.colorhex}`)
-                .setDescription(`**What is the final ban reason?**`)
+                .setDescription(`**What is the final ban reason?**\nInclude the image link like: \`[https://image.link/here.png]\``)
                 .setTimestamp()
                 .setFooter(`${client.config.copyright}`)
 
@@ -84,7 +84,7 @@ exports.run = async (client, message, args, con) => {
 
                                             // PlutoTheDev#1000's Better Logging System (if you're reading this, I'm actually gay)
                                         
-                                            con.query(`SELECT * FROM loggingchannels;`, async function(error, rows) {
+                                            con.query(`SELECT * FROM loggingchannels`, async function(error, rows) {
                                                 if (error) throw error;
                                                 con.query(`SELECT * FROM bannedusers WHERE userid='${row[0].reportedid}'`, async function(err, res) {
                                                     if (err) throw err;
@@ -97,14 +97,19 @@ exports.run = async (client, message, args, con) => {
                                                         .setFooter(`${client.config.copyright}`)
                                                     try { banned.setImage(`${res[0].proof}`) } catch {};
                                                     for (let data of rows) {
-                                                        let channel = await client.channels.cache.find(c => c.id === data.channelid);
-                                                        if (!channel) {
-                                                            await con.query(`DELETE FROM loggingchannels WHERE channelid='${data.channelid}'`, async (err, row) => {
-                                                                if(err) throw err;
-                                                            });
-                                                        } else {
-                                                            await channel.send(banned).catch(() => {});
-                                                        }
+                                                        await con.query(`SELECT * FROM guilds WHERE active='true' AND logall='true' AND guildid='${data.guildid}'`, async (err, row) => {
+                                                            if(err) throw err;
+                                                            if(row[0]) {
+                                                                let channel = await client.channels.cache.find(c => c.id === data.channelid);
+                                                                if (!channel) {
+                                                                    await con.query(`DELETE FROM loggingchannels WHERE channelid='${data.channelid}'`, async (err, row) => {
+                                                                        if(err) throw err;
+                                                                    });
+                                                                } else {
+                                                                    await channel.send(banned).catch(() => {});
+                                                                }
+                                                            }
+                                                        });
                                                     };
                                                     con.query(`SELECT * FROM guilds WHERE autobans='true' AND active='true'`, async(err, row) => {
                                                         if (err) throw err;
