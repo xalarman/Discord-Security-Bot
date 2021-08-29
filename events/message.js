@@ -142,7 +142,7 @@ module.exports = async(client, con, message) => {
         if(row[0]) {
             let prefix = row[0].prefix
             if (message.content.startsWith(prefix)) {
-                const args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
+                const args = message.content.slice(prefix.length).trim().split(/ +/g);
                 let command = args.shift().toLowerCase();
                 const cmd = client.commands.get(command)
                 if (cmd) {
