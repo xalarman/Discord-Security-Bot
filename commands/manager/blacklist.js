@@ -134,6 +134,38 @@ exports.run = async (client, message, args, con) => {
                                                             }
                                                             client.utils.enforcer(client, con, 'blacklist', enfmember, enfreason, mails)
 
+                                                            let notice = new Discord.MessageEmbed()
+                                                            .setColor(client.config.colorhex)
+                                                            .setThumbnail(client.user.avatarURL({ dynamic: true }))
+                                                            .setTitle(`Blacklisted User Notice!`)
+                                                            .setDescription(`**Case #:** ${banid}\n**User:** ${founded} - (${content1})\n**Type:** \`Blacklisted\`\n**Reason:** ${content2}`)
+                                                            .setFooter(`You are recieving this notice as we detected they are in your server.`)
+                                                            try {
+                                                                notice.setImage(image)
+                                                            } catch(e) {
+                                                                notice.setImage(client.config.defaultimage)
+                                                            }
+                                                            await con.query(`SELECT * FROM guilds WHERE active='true' AND logall='false'`, async (err, rows) => {
+                                                                if(err) throw err;
+                                                                if(rows[0]) {
+                                                                    rows.forEach(async r => {
+                                                                        let deGuild = await client.guilds.cache.get(r.guildid)
+                                                                        let member = await deGuild.members.cache.get(content1)
+                                                                        if(member !== undefined) {
+                                                                            await con.query(`SELECT * FROM loggingchannels WHERE guildid='${r.guildid}'`, async (err, row) => {
+                                                                                if(err) throw err;
+                                                                                if(row[0]) {
+                                                                                    let logchan = await client.channels.cache.get(row[0].channelid)
+                                                                                    if(logchan !== undefined) {
+                                                                                        await logchan.send(notice).catch(e => {})
+                                                                                    }
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    });
+                                                                }
+                                                            });
+
                                                             const flipembed = new Discord.MessageEmbed()
                                                             .setColor(`${client.config.colorhex}`)
                                                             .setTitle(`You Were Blacklisted!`)
