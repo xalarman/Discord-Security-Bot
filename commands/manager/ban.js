@@ -155,18 +155,20 @@ exports.run = async (client, message, args, con) => {
                                                         if(err) throw err;
                                                         if(rows[0]) {
                                                             rows.forEach(async r => {
-                                                                let deGuild = await client.guilds.cache.get(r.guildid)
-                                                                let member = await deGuild.members.cache.get(content1)
-                                                                if(member !== undefined) {
-                                                                    await con.query(`SELECT * FROM loggingchannels WHERE guildid='${r.guildid}'`, async (err, row) => {
-                                                                        if(err) throw err;
-                                                                        if(row[0]) {
-                                                                            let logchan = await client.channels.cache.get(row[0].channelid)
-                                                                            if(logchan !== undefined) {
-                                                                                await logchan.send(notice).catch(e => {})
+                                                                try {
+                                                                    let deGuild = await client.guilds.cache.get(r.guildid)
+                                                                    let member = await deGuild.members.fetch(content1)
+                                                                    if(member !== undefined) {
+                                                                        await con.query(`SELECT * FROM loggingchannels WHERE guildid='${r.guildid}'`, async (err, row) => {
+                                                                            if(err) throw err;
+                                                                            if(row[0]) {
+                                                                                let logchan = await client.channels.cache.get(row[0].channelid)
+                                                                                if(logchan !== undefined) {
+                                                                                    await logchan.send(notice).catch(e => {})
+                                                                                }
                                                                             }
-                                                                        }
-                                                                    });
+                                                                        });
+                                                                    } catch(e) {}
                                                                 }
                                                             });
                                                         }
