@@ -158,7 +158,7 @@ exports.run = async (client, message, args, con) => {
                                                                 try {
                                                                     let deGuild = await client.guilds.cache.get(r.guildid)
                                                                     let member = await deGuild.members.fetch(content1)
-                                                                    if(member !== undefined) {
+                                                                    if(member) {
                                                                         await con.query(`SELECT * FROM loggingchannels WHERE guildid='${r.guildid}'`, async (err, row) => {
                                                                             if(err) throw err;
                                                                             if(row[0]) {
@@ -168,8 +168,8 @@ exports.run = async (client, message, args, con) => {
                                                                                 }
                                                                             }
                                                                         });
-                                                                    } catch(e) {}
-                                                                }
+                                                                    }
+                                                                } catch(e) {}
                                                             });
                                                         }
                                                     });
