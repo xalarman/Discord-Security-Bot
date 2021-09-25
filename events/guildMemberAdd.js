@@ -45,15 +45,14 @@ module.exports = async(client, con, guildMember) => {
                                     .setDescription(`You have been banned from **${guildMember.guild.name}** as it uses the ${client.user.username} Discord Bot to help secure and enforce their community. Below you can find information on your ban along with some details and the appeal process.\n\n**Case #:** ${row[0].caseid}\n**Reason:**\n\`\`\`\n${row[0].reason}\n\`\`\`\n**Appealing:**\nIf you believe this ban was a mistake, or that you should be unbanned, feel free to join our [support server](${client.config.supportServerInvite}), ${client.user.username} is desingned to keep servers safe, not push the good people out.`)
                                     .setTimestamp()
                                     .setFooter(client.config.copyright)
-                                    return guildMember.send(banned).then(() => {
-                                        deGuild.members.ban(guildMember.user.id, {
+                                    await guildMember.send(banned).catch(e => {})
+                                    setTimeout(async () => {
+                                        await deGuild.members.ban(guildMember.user.id, {
                                             reason: `${row[0].reason} - ${client.user.tag}`
-                                        }).catch(e => {});
-                                    }).catch(e => {
-                                        deGuild.members.ban(guildMember.user.id, {
-                                            reason: `${row[0].reason} - ${client.user.tag}`
-                                        }).catch(e => {});
-                                    });
+                                        }).catch(e => {
+                                            console.log(`Issue banning user: `, e)
+                                        });
+                                    }, 4000)
                                 }
                             })
                         }
@@ -104,12 +103,14 @@ module.exports = async(client, con, guildMember) => {
                         .setTimestamp()
                         .setFooter(client.config.copyright)
                         try { lockmail.setThumbnail(guildMember.guild.iconURL({ dynamic: true })) } catch(e) {}
-                        return await guildMember.send(lockmail).then(() => {
+                        await guildMember.send(lockmail).then(() => {
                             guildMember.guild.member(guildMember).kick()
                         }).catch(e => {
                                 guildMember.guild.member(guildMember).kick()
                         });
                     }
+                } else {
+                    console.log(`Guild not found`)
                 }
             });
             
