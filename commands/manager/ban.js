@@ -108,7 +108,7 @@ exports.run = async (client, message, args, con) => {
                                                     const flippers = new Discord.MessageEmbed()
                                                     .setColor(`${client.config.colorhex}`)
                                                     .setTitle(`You Were Banned!`)
-                                                    .setDescription(`**Reason:** ${refinedReason}\n\n**You can appeal this ban [here](https://discord.gg/y94hgUe463)**`)
+                                                    .setDescription(`**Reason:** ${refinedReason}\n\n**You can appeal this ban [here](${client.config.supportServerInvite})**`)
                                                     .setThumbnail(`${client.user.displayAvatarURL()}`)
                                                     .setTimestamp()
                                                     .setFooter(`${client.config.copyright}`)
