@@ -3,6 +3,7 @@ const { readdirSync } = require('fs');
 const { join } = require('path');
 const api = require('../api/api.js')
 const mysql = require('mysql');
+const chalk = require('chalk')
 let con;
 
 class HDClient extends Client {
