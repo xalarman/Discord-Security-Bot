@@ -9,7 +9,7 @@ exports.run = (client, message, args, con) => {
     let embed = new MessageEmbed()
     .setAuthor(message.author.tag, message.author.displayAvatarURL())
     .setColor(client.config.colorhex)
-    .setDescription(`**Bot Invite:** [here](https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot)\n**Support Server:** [here](${client.config.supportServerInvite})\n**Creators Server:** [here](https://hyperz.dev/discord)`)
+    .setDescription(`**Bot Invite:** [here](https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot)\n**Support Server:** [here](${client.config.supportServerInvite})\n**Creators Server:** [here](https://hyperz.net/discord)`)
     message.channel.send(embed).catch(e => { if(client.config.debugmode) return client.utils.error(client, e) });
     message.delete().catch(e => { if(client.config.debugmode) return client.utils.error(client, e) });
 
