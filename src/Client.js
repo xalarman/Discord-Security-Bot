@@ -15,6 +15,7 @@ class HDClient extends Client {
 
         this.commands = new Collection();
         this.aliases = new Collection();
+        this.useSql = true;
 
     };
 };
