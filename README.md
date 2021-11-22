@@ -1,3 +1,10 @@
+# YOU CANNOT REMOVE ANY CREDITS
+# YOU CANNOT REMOVE ANY CREDITS
+# YOU CANNOT REMOVE ANY CREDITS
+# YOU CANNOT REMOVE ANY CREDITS
+# YOU CANNOT REMOVE ANY CREDITS
+
+
 # Discord-Security-Bot
 
 An advanced Discord Security bot, including a ban database, watchlist, sticky messages, server lockdown, and embed builder. Supports multiple servers.
