@@ -1,9 +1,9 @@
 const config = {
 
     // Client Settings
-    prefix: "s!",
-    token: "your-token",
-    date_format: "MM-DD-YYYY HH:mm A",
+    prefix: "K!help",
+    token: "OTE1MzM3NTg5ODg2Njg1MjM0.YaaIjw.gHHYe30Cpae_oy3pAZ7uQne6C6k",
+    date_format: "11-30-2021 HH:mm A",
     copyright: "© 2021 Your Name",
     colorhex: "#eb3734",
     voicechanneltojoin: "some-id",
